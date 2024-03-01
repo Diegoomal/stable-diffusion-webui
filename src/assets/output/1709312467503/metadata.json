@@ -1,0 +1,11 @@
+{
+    "model": "dreamlike-art/dreamlike-photoreal-2.0",
+    "device": "cuda",
+    "prompt": "photorealism Cyberpunk lizard in space",
+    "prompt_neg": "drawing",
+    "seed": 100,
+    "width": 512,
+    "height": 512,
+    "num_inference_steps": 20,
+    "strength": 0.7
+}

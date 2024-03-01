@@ -12,6 +12,37 @@ import streamlit as st
 from diffusers import StableDiffusionPipeline
 
 
+
+import requests
+import urllib.parse as parse
+
+# a function to determine whether a string is a URL or not
+def is_url(string):
+    try:
+        result = parse.urlparse(string)
+        return all([result.scheme, result.netloc, result.path])
+    except:
+        return False
+
+# a function to load an image
+def load_image(image_path):
+    if is_url(image_path):
+        return Image.open(requests.get(image_path, stream=True).raw)
+    elif os.path.exists(image_path):
+        return Image.open(image_path)
+    
+# def proportional_resize_img(image, width_target):
+#     width_original, height_original = image.size
+#     proportional = width_original / height_original
+#     height_target = int(width_original * height_original)
+#     return image.resize((width_target, height_target))
+    
+def resize_img(image, width_target, height_target):
+    width_original, height_original = image.size
+    proportional = width_original / height_original
+    new_height = int(height_target / proportional)
+    return image.resize((width_target, new_height))
+
 def build_front_env():
 
     # Models
@@ -20,6 +51,7 @@ def build_front_env():
         'runwayml/stable-diffusion-v1-5',
         'stabilityai/stable-diffusion-2-1',
         'dreamlike-art/dreamlike-photoreal-2.0',
+        # 'stabilityai/stable-diffusion-2-depth',
     ]
 
     selected_option_model = st.selectbox('Select model', options)
@@ -30,6 +62,9 @@ def build_front_env():
     options = ['cpu', 'cuda']
 
     selected_option_device = st.selectbox('Select device', options, index=options.index(default_device))
+
+    # # input image
+    # input_img_url = st.text_input('Input image', '')
 
     # prompts
     prompt = st.text_input('Prompt', 'Cyber lizard in space')
@@ -46,6 +81,12 @@ def build_front_env():
 
     # button execute
     if st.button('Generate'):
+
+        # if input_img_url != '':
+        #     img = load_image(input_img_url)
+        #     img = resize_img(img, width, height)
+        # else:
+        #     img = None
 
         torch.manual_seed(seed)
 
@@ -65,7 +106,8 @@ def build_front_env():
             num_inference_steps=num_inference_steps,
             strength=strength,
             width = width,
-            height = height
+            height = height,
+            # image = img,
         ).images
 
         image = images[0]
@@ -87,7 +129,8 @@ def build_front_env():
             'width': width,
             'height': height,
             'num_inference_steps': num_inference_steps,
-            'strength': strength
+            'strength': strength,
+            # 'input_img_url': input_img_url if input_img_url != '' else 'no used'
         }
 
         with open(f'src/assets/output/{ filename }/metadata.json', 'w') as file:

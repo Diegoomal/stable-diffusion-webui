@@ -1,0 +1,11 @@
+{
+    "model": "CompVis/stable-diffusion-v1-4",
+    "device": "cuda",
+    "prompt": "A salad with tomatoes and guanas chips mixed with ketchup and mustard and bay leaf and guacamole and onions and ketchup and luscious patty with sesame seeds and cashews and onions and ketchup, ethereal,",
+    "prompt_neg": "",
+    "seed": 42,
+    "width": 512,
+    "height": 512,
+    "num_inference_steps": 50,
+    "strength": 0.7
+}
