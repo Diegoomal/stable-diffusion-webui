@@ -110,6 +110,8 @@ def build_front_env():
             # image = img,
         ).images
 
+        del pipe
+
         image = images[0]
 
         st.image(image, caption='Generated image', use_column_width=True)
@@ -135,5 +137,3 @@ def build_front_env():
 
         with open(f'src/assets/output/{ filename }/metadata.json', 'w') as file:
             json.dump(metadata, file)
-
-        del pipe
