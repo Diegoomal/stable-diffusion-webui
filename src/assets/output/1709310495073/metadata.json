@@ -1,0 +1,11 @@
+{
+    "model": "CompVis/stable-diffusion-v1-4",
+    "device": "cuda",
+    "prompt": "Cyber lizard in space",
+    "prompt_neg": "photorealism",
+    "seed": 42,
+    "width": 512,
+    "height": 512,
+    "num_inference_steps": 50,
+    "strength": 0.7
+}
